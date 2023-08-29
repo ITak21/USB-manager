@@ -18,3 +18,6 @@
 
 ### 대여중인 usb 식별
 - 현재 대여 중인 usb를 확인할 수 있으며 누가 언제 대여해갔는지 확인할 수 있다.
+
+## DB ERD
+<img width="700" src=https://github.com/ITak21/USB-manager/assets/118645678/ec6f9540-1e6a-4408-8a05-816e1114c084>
