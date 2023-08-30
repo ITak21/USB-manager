@@ -21,6 +21,7 @@
 
 ## DB ERD(수정)
 <img width="700" src=https://github.com/ITak21/USB-manager/assets/118645678/0bd1216a-c892-4fb9-8ffc-0c5abadd049a>
+
 - 현재 USB가 대여중인지 확인할 수 있다.
 - 현재 어떤 프로그램이 존재하는지 알 수 있다.
 - 어떤 프로그램이 어느 USB에 들어있는지 알 수 있다.
