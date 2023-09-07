@@ -24,10 +24,8 @@ public class UsbFileService {
 
         if (files != null) {
             for (File file : files) {
-                if (file.isFile()) {
                     fileList.add(file.getAbsolutePath());
-                } else if (file.isDirectory()) {
-                    fileList.add(file.getAbsolutePath());
+                if (file.isDirectory()) {
                     exploreDirectory(file, fileList); // 재귀 호출로 하위 디렉토리 검색
                 }
             }
