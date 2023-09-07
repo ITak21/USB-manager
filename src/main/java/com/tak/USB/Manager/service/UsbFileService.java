@@ -27,6 +27,7 @@ public class UsbFileService {
                     fileList.add(file.getAbsolutePath());
                 if (file.isDirectory()) {
                     exploreDirectory(file, fileList); // 재귀 호출로 하위 디렉토리 검색
+                    System.out.println(file.getAbsolutePath());
                 }
             }
         }
