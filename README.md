@@ -1,3 +1,4 @@
+
 # USB-manager
 
 ## 제작의도
@@ -20,7 +21,7 @@
 - 현재 대여 중인 usb를 확인할 수 있으며 누가 언제 대여해갔는지 확인할 수 있다.
 
 ## DB ERD(수정)
-<img width="700" src=https://github.com/ITak21/USB-manager/assets/118645678/0bd1216a-c892-4fb9-8ffc-0c5abadd049a>
+<img width="700" src=https://github.com/ITak21/USB-manager/assets/118645678/3c6b74c6-1283-47ee-aea1-be22d1cdd38d>
 
 - 현재 USB가 대여중인지 확인할 수 있다.
 - 현재 어떤 프로그램이 존재하는지 알 수 있다.
