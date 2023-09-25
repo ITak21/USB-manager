@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USB_manager</title>
+    <style>
+        /* 기본 스타일링 */
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+
+        }
+        .container {
+            display: flex;
+        }
+        .add-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .program-list {
+            flex: 2;
+            padding: 20px;
+        }
+        .usb-list {
+            flex: 1;
+            padding: 20px;
+        }
+        /* 검색창 스타일링 */
+          .search-bar {
+        text-align: center;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+    }
+    input[type="text"] {
+        flex: 1; /* 남은 공간을 모두 차지하도록 */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-left: 10px; /* 검색 버튼과의 간격 조정 */
+    }
+        /* 프로그램 목록 스타일링 */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        /* USB 목록 스타일링 */
+        .usb-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>USB manager</h1>
+    <div class="search-bar">
+        <input type="text" placeholder="프로그램 검색">
+        <button>검색</button>
+    </div>
+</header>
+<div class="container">
+    <div class="add-button">
+        <button onclick="location.href='usb-files?usbDrivePath=D:/'">프로그램 추가</button>
+    </div>
+    <div class="program-list">
+        <h2>프로그램 목록</h2>
+        <ul>
+            <li th:each="program : ${programs}">
+                <span th:text="${program.name}"></span>
+            </li>
+
+
+        </ul>
+    </div>
+    <div class="usb-list">
+        <h2>USB 목록</h2>
+        <div class="usb-item">USB 1</div>
+        <div class="usb-item">USB 2</div>
+        <div class="usb-item">USB 3</div>
+        <!-- USB 목록 계속 추가 -->
+    </div>
+</div>
+</body>
+</html>
