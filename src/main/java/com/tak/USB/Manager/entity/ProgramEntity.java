@@ -12,12 +12,12 @@ public class ProgramEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pg_index")
-    private int id;
+    private int pgIndex;
 
 
 
     @Column(name = "pg_nm")
-    private String name;
+    private String pgName;
 
 
 }

@@ -95,7 +95,7 @@
         <h2>프로그램 목록</h2>
         <ul>
             <li th:each="program : ${programs}">
-                <span th:text="${program.name}"></span>
+                <span th:text="${program.pgName}"></span>
             </li>
 
 
@@ -103,10 +103,9 @@
     </div>
     <div class="usb-list">
         <h2>USB 목록</h2>
-        <div class="usb-item">USB 1</div>
-        <div class="usb-item">USB 2</div>
-        <div class="usb-item">USB 3</div>
-        <!-- USB 목록 계속 추가 -->
+        <div class="usb-item" th:each="usb : ${usbs}">
+            <span th:text="${usb.usbName}"></span>
+        </div>
     </div>
 </div>
 </body>
