@@ -16,7 +16,7 @@ public class UsbService {
         this.usbRepository = usbRepository;
     }
     public List<UsbEntity> getAllUsbs(){
-        System.out.println(usbRepository.findAll());
+//        System.out.println(usbRepository.findAll());
         return usbRepository.findAll();
     }
 

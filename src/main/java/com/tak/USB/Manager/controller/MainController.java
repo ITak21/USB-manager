@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -24,8 +25,8 @@ public class MainController {
     // 모든 프로그램 목록을 반환
     @GetMapping("/")
     public String getAllList(Model model) {
-        List<ProgramEntity> programs = programService.getAllPrograms();
         List<UsbEntity> usbs =usbService.getAllUsbs();
+        List<Map<String ,String >> programs = programService.getAllPrograms();
         model.addAttribute("programs", programs);
         model.addAttribute("usbs", usbs);
         return "index";

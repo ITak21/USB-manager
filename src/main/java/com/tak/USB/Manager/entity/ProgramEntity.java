@@ -19,5 +19,8 @@ public class ProgramEntity {
     @Column(name = "pg_nm")
     private String pgName;
 
+    @Column(name = "usb_id")
+    private Integer usbId;
+
 
 }

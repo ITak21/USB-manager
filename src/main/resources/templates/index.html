@@ -81,7 +81,7 @@
 </head>
 <body>
 <header>
-    <h1>USB manager</h1>
+    <h1 onClick="window.location.reload()" style="cursor: pointer;">USB manager</h1>
     <div class="search-bar">
         <input type="text" placeholder="프로그램 검색">
         <button>검색</button>
@@ -95,7 +95,11 @@
         <h2>프로그램 목록</h2>
         <ul>
             <li th:each="program : ${programs}">
-                <span th:text="${program.pgName}"></span>
+                <span th:text="${program.pname}"></span>
+                <span>
+                <span th:if="${#strings.equals(program.ureturn,'0')}" style="background-color: green; color: white; padding: 2px;float: right;">대여 가능</span>
+                <span th:if="${#strings.equals(program.ureturn,'1')}" style="background-color: red; color: white; padding: 2px;float: right;">대여 불가</span>
+        </span>
             </li>
 
 
@@ -105,6 +109,8 @@
         <h2>USB 목록</h2>
         <div class="usb-item" th:each="usb : ${usbs}">
             <span th:text="${usb.usbName}"></span>
+            <span th:if="${#strings.equals(usb.usbReturn,'0')}" style="background-color: green; color: white; padding: 2px;float: right;">대여 가능</span>
+            <span th:if="${#strings.equals(usb.usbReturn,'1')}" style="background-color: red; color: white; padding: 2px;float: right;">대여 불가</span>
         </div>
     </div>
 </div>
