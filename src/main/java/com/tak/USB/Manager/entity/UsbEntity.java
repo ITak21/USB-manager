@@ -11,7 +11,6 @@ import lombok.Setter;
 public class UsbEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usb_index")
     private int usbIndex;
 
     @Column(name = "usb_nm")

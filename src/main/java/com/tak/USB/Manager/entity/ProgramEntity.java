@@ -11,7 +11,6 @@ import lombok.Setter;
 public class ProgramEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pg_index")
     private int pgIndex;
 
 

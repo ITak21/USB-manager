@@ -41,6 +41,7 @@ public class UsbFileController {
         for(String programName : selectedPrograms){
             ProgramEntity sprograms = new ProgramEntity();
             sprograms.setPgName(programName);
+            sprograms.setUsbId(index);
             System.out.println(programName);
             programRepository.save(sprograms);
         }

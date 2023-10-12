@@ -24,15 +24,11 @@ public class UsbFileService {
 
         if (files != null) {
             for (File file : files) {
-                    fileList.add(file.getAbsolutePath());
-                if (file.isDirectory()) {
+                if (file.isFile()) {
+                    fileList.add(file.getName());
+                } else if (file.isDirectory()) {
                     fileList.add(file.getName() + "/");
-                    exploreDirectory(file, fileList); // 재귀 호출로 하위 디렉토리 검색
-
-//                    System.out.println(file.getAbsolutePath()); //폴더명만 나옴
-
-                    System.out.println(file.getAbsolutePath());
-
+                    exploreDirectory(file, fileList);
                 }
             }
         }
