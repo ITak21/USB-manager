@@ -7,19 +7,15 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "program_table")
-public class ProgramEntity {
+@Table(name = "usb_table")
+public class UsbEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int pgIndex;
+    private int usbIndex;
 
+    @Column(name = "usb_nm")
+    private String usbName;
 
-
-    @Column(name = "pg_nm")
-    private String pgName;
-
-    @Column(name = "usb_id")
-    private Integer usbId;
-
-
+    @Column(name = "usb_return")
+    private Integer usbReturn;
 }
