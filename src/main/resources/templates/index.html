@@ -77,6 +77,53 @@
             margin-bottom: 10px;
             border-radius: 5px;
         }
+    /* 팝업 스타일링 */
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        width: 50%;
+
+    }
+
+    .close-button {
+        display: flex;
+        font-size: 20px;
+        cursor: pointer;
+        justify-content: flex-end;
+    }
+
+    /* 버튼 스타일 수정 */
+    .popup-button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-top: 10px; /* 버튼 위쪽 간격 추가 */
+    }
+    .popup-content> button {
+        display: flex;
+        margin: auto;
+    }
     </style>
 </head>
 <body>
@@ -95,7 +142,7 @@
         <h2>프로그램 목록</h2>
         <ul>
             <li th:each="program : ${programs}">
-                <span th:text="${program.pname}"></span>
+                <span th:text="${program.pname}" class="program-name" th:data-ureturn="${program.ureturn}" th:uid="${program.uid}" onclick="showPopup(this)"></span>
                 <span>
                 <span th:if="${#strings.equals(program.ureturn,'0')}" style="background-color: green; color: white; padding: 2px;float: right;">대여 가능</span>
                 <span th:if="${#strings.equals(program.ureturn,'1')}" style="background-color: red; color: white; padding: 2px;float: right;">대여 불가</span>
@@ -114,5 +161,93 @@
         </div>
     </div>
 </div>
+<script>
+function showPopup(element) {
+
+  var programName = element.textContent;
+  var programUreturn = element.getAttribute("data-ureturn");
+  var programUid = element.getAttribute("uid");
+
+  var statusText = programUreturn === "0" ? "대여 가능" : "대여 불가";
+
+  var popup = document.createElement("div");
+  popup.className = "popup";
+
+
+  var closeButton = document.createElement("span");
+  closeButton.className = "close-button";
+  closeButton.innerHTML = "X";
+
+  closeButton.onclick = function() {
+    popup.style.display = "none";
+    location.reload();
+  };
+
+
+  var popupContent = document.createElement("div");
+  popupContent.className = "popup-content";
+
+  var programInfoParagraph = document.createElement("p");
+  programInfoParagraph.innerHTML = "프로그램 이름: " + programName + "<br>상태: " + statusText;
+
+  var updateButton = document.createElement("button");
+  updateButton.onclick = function() {
+
+      const newStatus = programUreturn === "0" ? "1" : "0";
+
+      fetch('/update-program-status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          programName: programName,
+          newStatus: newStatus,
+          programUid: programUid,
+        }),
+      })
+
+
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+
+          programUreturn = newStatus;
+          statusText = newStatus === "0" ? "대여 가능" : "대여 불가";
+          programInfoParagraph.innerHTML = "프로그램 이름: " + programName + "<br>상태: " + statusText;
+          newStatus === "0" ? updateButton.innerHTML = "대여하기" : updateButton.innerHTML = "반납하기";
+
+        } else {
+
+          console.error('Update failed:', data.error);
+        }
+        })
+.catch(error => {
+  console.error('Network error:', error);
+      });
+
+
+  };
+
+
+  popupContent.appendChild(closeButton);
+  popupContent.appendChild(programInfoParagraph);
+
+  if (programUreturn === "0") {
+    updateButton.innerHTML = "대여하기";
+
+  }else{
+    updateButton.innerHTML = "반납하기";
+  }
+
+  popupContent.appendChild(updateButton);
+
+  popup.appendChild(popupContent);
+
+
+  document.body.appendChild(popup);
+  popup.style.display = "flex";
+}
+</script>
 </body>
 </html>

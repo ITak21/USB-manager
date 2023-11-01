@@ -32,6 +32,7 @@ public class ProgramService {
             if (u.isPresent()){
                 Map<String, String> data = new HashMap<>();
                 data.put("pname", p.getPgName());
+                data.put("uid", String.valueOf(p.getUsbId()));
                 data.put("ureturn", String.valueOf(u.get().getUsbReturn()));
                 result.add(data);
             }
