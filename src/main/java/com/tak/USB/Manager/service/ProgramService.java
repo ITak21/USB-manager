@@ -40,4 +40,29 @@ public class ProgramService {
         return result;
 
     }
+    public List<ProgramEntity> getProgramsForUSB(Integer usbIndex) {
+
+        List<ProgramEntity> getPrograms = programRepository.findByUsbId(usbIndex);
+        return getPrograms;
+    }
+
+
+    public List<Map<String, String>> searchPg(String keyword) {
+
+        List<ProgramEntity> searchList = programRepository.findBypgNameContaining(keyword);
+        List<Map<String,String>> results = new ArrayList<>();
+
+        for(ProgramEntity p: searchList){
+            Optional<UsbEntity> u = usbRepository.findById(p.getUsbId());
+            if (u.isPresent()){
+                Map<String, String> data = new HashMap<>();
+                data.put("pname", p.getPgName());
+                data.put("uid", String.valueOf(p.getUsbId()));
+                data.put("ureturn", String.valueOf(u.get().getUsbReturn()));
+                results.add(data);
+            }
+        }
+        return results;
+
+    }
 }
