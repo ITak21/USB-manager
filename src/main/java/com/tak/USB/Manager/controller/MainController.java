@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,12 +34,12 @@ public class MainController {
         model.addAttribute("usbs", usbs);
         return "index";
     }
-    @PostMapping("/update-program-status")
+    @PostMapping("/update-status")
     public ResponseEntity<Map<String, Object>> updateUsbReturn(@RequestBody Map<String, String> requestBody){
-        String programUid= requestBody.get("programUid");
+        String uid= requestBody.get("Uid");
         String newStatus = requestBody.get("newStatus");
 
-        List<UsbEntity> updatedUSBList = usbService.updateUsbReturn(programUid, newStatus);
+        List<UsbEntity> updatedUSBList = usbService.updateUsbReturn(uid, newStatus);
 
         if (updatedUSBList != null && !updatedUSBList.isEmpty()) {
             Map<String, Object> response = new HashMap<>();
@@ -54,5 +52,30 @@ public class MainController {
             response.put("error", "USB를 찾을 수 없습니다.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+    }
+    @GetMapping("/get-program-list")
+    @ResponseBody
+    public Map<String, Object> getProgramsForUSB(@RequestParam("usbIndex") int usbIndex) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            List<ProgramEntity> getPrograms = programService.getProgramsForUSB(usbIndex); // Replace with your service logic
+            response.put("success", true);
+            response.put("programs", getPrograms);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", "Failed to fetch program list");
+        }
+
+        return response;
+    }
+    @GetMapping("/search")
+    public String searchPrograms(@RequestParam("keyword") String keyword,Model model) {
+        List<Map<String ,String >> searchlist = programService.searchPg(keyword);
+        List<UsbEntity> usbs= usbService.getAllUsbs();
+        model.addAttribute("usbs", usbs);
+        model.addAttribute("programs", searchlist);
+
+        return "index";
     }
 }

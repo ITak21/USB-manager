@@ -39,8 +39,10 @@
           .search-bar {
         text-align: center;
         padding: 20px;
-        display: flex;
         align-items: center;
+    }
+    form{
+    display: flex;
     }
     input[type="text"] {
         flex: 1; /* 남은 공간을 모두 차지하도록 */
@@ -128,10 +130,12 @@
 </head>
 <body>
 <header>
-    <h1 onClick="window.location.reload()" style="cursor: pointer;">USB manager</h1>
+    <h1 onClick="location.href='/'" style="cursor: pointer;">USB manager</h1>
     <div class="search-bar">
-        <input type="text" placeholder="프로그램 검색">
-        <button>검색</button>
+        <form action="/search" method="GET" id="search">
+        <input type="text" name="keyword" placeholder="프로그램 검색">
+        <button type="submit" form="search">검색</button>
+        </form>
     </div>
 </header>
 <div class="container">
@@ -142,7 +146,7 @@
         <h2>프로그램 목록</h2>
         <ul>
             <li th:each="program : ${programs}">
-                <span th:text="${program.pname}" class="program-name" th:data-ureturn="${program.ureturn}" th:uid="${program.uid}" onclick="showPopup(this)"></span>
+                <span th:text="${program.pname}" class="program-name" th:data-ureturn="${program.ureturn}" th:uid="${program.uid}" onclick="showPopup(this,type=1)"></span>
                 <span>
                 <span th:if="${#strings.equals(program.ureturn,'0')}" style="background-color: green; color: white; padding: 2px;float: right;">대여 가능</span>
                 <span th:if="${#strings.equals(program.ureturn,'1')}" style="background-color: red; color: white; padding: 2px;float: right;">대여 불가</span>
@@ -155,24 +159,28 @@
     <div class="usb-list">
         <h2>USB 목록</h2>
         <div class="usb-item" th:each="usb : ${usbs}">
-            <span th:text="${usb.usbName}"></span>
+            <span th:text="${usb.usbName}" th:data-usbindex="${usb.usbIndex}" th:data-usbreturn="${usb.usbReturn}" onclick="showPopup(this,type=2)"></span>
             <span th:if="${#strings.equals(usb.usbReturn,'0')}" style="background-color: green; color: white; padding: 2px;float: right;">대여 가능</span>
             <span th:if="${#strings.equals(usb.usbReturn,'1')}" style="background-color: red; color: white; padding: 2px;float: right;">대여 불가</span>
         </div>
     </div>
 </div>
 <script>
+function showUsbPopup(element){
+  var usbName = element.textContent;
+  var usbIndex = element.getAttribute("data-usbindex");
+  var usbReturn = element.getAttribute("data-usbreturn");
+
+  var usbStatusText = usbReturn === "0" ? "대여 가능" : "대여 불가";
+
+
+
+}
+
 function showPopup(element) {
-
-  var programName = element.textContent;
-  var programUreturn = element.getAttribute("data-ureturn");
-  var programUid = element.getAttribute("uid");
-
-  var statusText = programUreturn === "0" ? "대여 가능" : "대여 불가";
 
   var popup = document.createElement("div");
   popup.className = "popup";
-
 
   var closeButton = document.createElement("span");
   closeButton.className = "close-button";
@@ -187,15 +195,27 @@ function showPopup(element) {
   var popupContent = document.createElement("div");
   popupContent.className = "popup-content";
 
-  var programInfoParagraph = document.createElement("p");
-  programInfoParagraph.innerHTML = "프로그램 이름: " + programName + "<br>상태: " + statusText;
-
   var updateButton = document.createElement("button");
+  popupContent.appendChild(closeButton);
+
+
+  if(type==1){
+
+    var programName = element.textContent;
+    var programUreturn = element.getAttribute("data-ureturn");
+    var programUid = element.getAttribute("uid");
+
+    var statusText = programUreturn === "0" ? "대여 가능" : "대여 불가";
+
+    var programInfoParagraph = document.createElement("p");
+    programInfoParagraph.innerHTML = "프로그램 이름: " + programName + "<br>상태: " + statusText + "<br>USB인덱스: "+ programUid;
+    popupContent.appendChild(programInfoParagraph);
+
   updateButton.onclick = function() {
 
       const newStatus = programUreturn === "0" ? "1" : "0";
 
-      fetch('/update-program-status', {
+      fetch('/update-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -203,7 +223,7 @@ function showPopup(element) {
         body: JSON.stringify({
           programName: programName,
           newStatus: newStatus,
-          programUid: programUid,
+          Uid: programUid,
         }),
       })
 
@@ -216,37 +236,123 @@ function showPopup(element) {
           statusText = newStatus === "0" ? "대여 가능" : "대여 불가";
           programInfoParagraph.innerHTML = "프로그램 이름: " + programName + "<br>상태: " + statusText;
           newStatus === "0" ? updateButton.innerHTML = "대여하기" : updateButton.innerHTML = "반납하기";
+          newStatus === "0" ? msg= "반납이 완료되었습니다" : msg= "대여가 완료되었습니다";
 
+          alert(msg);
+          location.reload();
         } else {
-
+          // Handle the error (display an error message, etc.)
           console.error('Update failed:', data.error);
         }
-        })
-.catch(error => {
-  console.error('Network error:', error);
-      });
+      })
+        .catch(error => {
+          console.error('Network error:', error);
+        });
 
 
   };
 
+          if (programUreturn === "0") {
+            updateButton.innerHTML = "대여하기";
 
-  popupContent.appendChild(closeButton);
-  popupContent.appendChild(programInfoParagraph);
+          }else{
+            updateButton.innerHTML = "반납하기";
+          }
+  }else if(type==2){
 
-  if (programUreturn === "0") {
-    updateButton.innerHTML = "대여하기";
+    var usbName = element.textContent;
+    var usbIndex = element.getAttribute("data-usbindex");
+    var usbReturn = element.getAttribute("data-usbreturn");
 
-  }else{
-    updateButton.innerHTML = "반납하기";
+    var statusText = usbReturn === "0" ? "대여 가능" : "대여 불가";
+
+    var usbInfoParagraph = document.createElement("p");
+    usbInfoParagraph.innerHTML = "USB 이름: " + usbName + "<br>상태: " + statusText;
+    popupContent.appendChild(usbInfoParagraph);
+
+    loadProgramList(element);
+
+    updateButton.onclick = function() {
+
+      const newStatus = usbReturn === "0" ? "1" : "0";
+
+      fetch('/update-status', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+
+          newStatus: newStatus,
+          Uid: usbIndex,
+        }),
+      })
+
+
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+
+          usbReturn = newStatus;
+          statusText = newStatus === "0" ? "대여 가능" : "대여 불가";
+          usbInfoParagraph.innerHTML = "USB 이름: " + usbName + "<br>상태: " + statusText;
+          newStatus === "0" ? updateButton.innerHTML = "대여하기" : updateButton.innerHTML = "반납하기";
+          newStatus === "0" ? msg= "반납이 완료되었습니다" : msg= "대여가 완료되었습니다";
+
+          alert(msg);
+          location.reload();
+
+        } else {
+          // Handle the error (display an error message, etc.)
+          console.error('Update failed:', data.error);
+        }
+        })
+        .catch(error => {
+          console.error('Network error:', error);
+        });
+
+
+        };
+
+          if (usbReturn === "0") {
+            updateButton.innerHTML = "대여하기";
+
+          }else{
+            updateButton.innerHTML = "반납하기";
+          }
+  }
+
+
+  function  loadProgramList(element){
+   var usbIndex = element.getAttribute("data-usbindex");
+   fetch('/get-program-list?usbIndex=' + usbIndex)
+    .then(response => response.json())
+    .then(data => {
+
+      var programList = document.createElement("ul");
+      programList.innerHTML = "프로그램 목록: ";
+      data.programs.forEach(program => {
+        var programItem = document.createElement("li");
+        programItem.textContent = program.pgName;
+        programList.appendChild(programItem);
+      });
+
+      // Append the program list to the popup content
+      var popupContent = document.querySelector(".popup-content");
+      popupContent.appendChild(programList);
+    })
+    .catch(error => {
+      console.error('Error fetching program list:', error);
+    });
   }
 
   popupContent.appendChild(updateButton);
-
   popup.appendChild(popupContent);
 
 
   document.body.appendChild(popup);
   popup.style.display = "flex";
+
 }
 </script>
 </body>
