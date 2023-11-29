@@ -176,6 +176,7 @@ function showUsbPopup(element){
 
 
 }
+
 function showPopup(element) {
 
   var popup = document.createElement("div");
@@ -200,15 +201,15 @@ function showPopup(element) {
 
   if(type==1){
 
-  var programName = element.textContent;
-  var programUreturn = element.getAttribute("data-ureturn");
-  var programUid = element.getAttribute("uid");
+    var programName = element.textContent;
+    var programUreturn = element.getAttribute("data-ureturn");
+    var programUid = element.getAttribute("uid");
 
-  var statusText = programUreturn === "0" ? "대여 가능" : "대여 불가";
+    var statusText = programUreturn === "0" ? "대여 가능" : "대여 불가";
 
-  var programInfoParagraph = document.createElement("p");
-  programInfoParagraph.innerHTML = "프로그램 이름: " + programName + "<br>상태: " + statusText + "<br>USB인덱스: "+ programUid;
-  popupContent.appendChild(programInfoParagraph);
+    var programInfoParagraph = document.createElement("p");
+    programInfoParagraph.innerHTML = "프로그램 이름: " + programName + "<br>상태: " + statusText + "<br>USB인덱스: "+ programUid;
+    popupContent.appendChild(programInfoParagraph);
 
   updateButton.onclick = function() {
 
@@ -243,13 +244,13 @@ function showPopup(element) {
           // Handle the error (display an error message, etc.)
           console.error('Update failed:', data.error);
         }
-        })
+      })
         .catch(error => {
           console.error('Network error:', error);
         });
 
 
-        };
+  };
 
           if (programUreturn === "0") {
             updateButton.innerHTML = "대여하기";

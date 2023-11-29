@@ -36,10 +36,10 @@ public class MainController {
     }
     @PostMapping("/update-status")
     public ResponseEntity<Map<String, Object>> updateUsbReturn(@RequestBody Map<String, String> requestBody){
-        String Uid= requestBody.get("Uid");
+        String uid= requestBody.get("Uid");
         String newStatus = requestBody.get("newStatus");
 
-        List<UsbEntity> updatedUSBList = usbService.updateUsbReturn(Uid, newStatus);
+        List<UsbEntity> updatedUSBList = usbService.updateUsbReturn(uid, newStatus);
 
         if (updatedUSBList != null && !updatedUSBList.isEmpty()) {
             Map<String, Object> response = new HashMap<>();
