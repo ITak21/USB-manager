@@ -34,6 +34,7 @@ public class ProgramService {
                 data.put("pname", p.getPgName());
                 data.put("uid", String.valueOf(p.getUsbId()));
                 data.put("ureturn", String.valueOf(u.get().getUsbReturn()));
+                data.put("pgid", String.valueOf(p.getPgIndex()));
                 result.add(data);
             }
         }
@@ -59,6 +60,7 @@ public class ProgramService {
                 data.put("pname", p.getPgName());
                 data.put("uid", String.valueOf(p.getUsbId()));
                 data.put("ureturn", String.valueOf(u.get().getUsbReturn()));
+                data.put("pgid", String.valueOf(p.getPgIndex()));
                 results.add(data);
             }
         }

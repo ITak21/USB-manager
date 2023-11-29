@@ -38,10 +38,10 @@
 <body>
 <h1 onClick="window.location.reload()" style="cursor: pointer;">USB Files Explorer</h1>
 <ul id="usbFiles">
-  <form method="post" action="/save">
+  <form method="post" action="/save" onsubmit="return validateForm()">
     <li>
       usb인덱스:
-      <input type="number" name="index">
+      <input type="number" name="index" id="index" min="1" max="4">
     </li>
 
     <li th:each="item : ${usbFiles}" th:class="${item.endsWith('/')} ? 'folder' : 'file'"
@@ -51,6 +51,21 @@
     <input type="submit">
   </form>
 </ul>
+<script>
 
+    function validateForm() {
+        var indexInput = document.getElementById('index');
+        var checkboxes = document.querySelectorAll('input[name="selectedPrograms"]:checked');
+         if (indexInput.value.trim() === "") {
+            alert('USB인덱스를 입력해주세요');
+            return false; // Prevent form submission
+        }
+        if (checkboxes.length === 0) {
+            alert('최소 1개 이상의 체크박스를 선택해주세요');
+            return false; // Prevent form submission
+        }
+        return true;
+    }
+</script>
 </body>
 </html>

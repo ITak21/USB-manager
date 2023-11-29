@@ -36,31 +36,31 @@
             padding: 20px;
         }
         /* 검색창 스타일링 */
-          .search-bar {
-        text-align: center;
-        padding: 20px;
-        align-items: center;
-    }
-    form{
-    display: flex;
-    }
-    input[type="text"] {
-        flex: 1; /* 남은 공간을 모두 차지하도록 */
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-    }
-    button {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-        margin-left: 10px; /* 검색 버튼과의 간격 조정 */
-    }
+        .search-bar {
+            text-align: center;
+            padding: 20px;
+            align-items: center;
+        }
+        form{
+            display: flex;
+        }
+        input[type="text"] {
+            flex: 1; /* 남은 공간을 모두 차지하도록 */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-left: 10px; /* 검색 버튼과의 간격 조정 */
+        }
         /* 프로그램 목록 스타일링 */
         ul {
             list-style-type: none;
@@ -79,53 +79,68 @@
             margin-bottom: 10px;
             border-radius: 5px;
         }
-    /* 팝업 스타일링 */
-    .popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        /* 팝업 스타일링 */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .popup-content {
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        width: 50%;
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 50%;
 
-    }
+        }
 
-    .close-button {
-        display: flex;
-        font-size: 20px;
-        cursor: pointer;
-        justify-content: flex-end;
-    }
+        .close-button {
+            display: flex;
+            font-size: 20px;
+            cursor: pointer;
+            justify-content: flex-end;
+        }
 
-    /* 버튼 스타일 수정 */
-    .popup-button {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 16px;
-        margin-top: 10px; /* 버튼 위쪽 간격 추가 */
-    }
-    .popup-content> button {
-        display: flex;
-        margin: auto;
-    }
+        /* 버튼 스타일 수정 */
+        .popup-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-top: 10px; /* 버튼 위쪽 간격 추가 */
+        }
+        .popup-content> button {
+            display: flex;
+            margin: auto;
+        }
+        .popup-content> input{
+            display:block;
+            width:50%;
+            margin: 1%;
+            height: 24px;
+
+        }
+        li:hover{
+            box-shadow: 0 0 0 1.5px rgba(0, 123, 255,0.5) inset;
+            transition: 0.1s;
+        }
+        .usb-item:hover{
+            box-shadow: 0 0 0 1.5px rgba(0, 123, 255,0.5) inset;
+            transition: 0.1s;
+        }
     </style>
 </head>
 <body>
@@ -146,7 +161,7 @@
         <h2>프로그램 목록</h2>
         <ul>
             <li th:each="program : ${programs}">
-                <span th:text="${program.pname}" class="program-name" th:data-ureturn="${program.ureturn}" th:uid="${program.uid}" onclick="showPopup(this,type=1)"></span>
+                <span th:text="${program.pname}" class="program-name" th:data-ureturn="${program.ureturn}" th:uid="${program.uid}" th:pgindex="${program.pgid}" onclick="showPopup(this,type=1)"></span>
                 <span>
                 <span th:if="${#strings.equals(program.ureturn,'0')}" style="background-color: green; color: white; padding: 2px;float: right;">대여 가능</span>
                 <span th:if="${#strings.equals(program.ureturn,'1')}" style="background-color: red; color: white; padding: 2px;float: right;">대여 불가</span>
@@ -163,6 +178,7 @@
             <span th:if="${#strings.equals(usb.usbReturn,'0')}" style="background-color: green; color: white; padding: 2px;float: right;">대여 가능</span>
             <span th:if="${#strings.equals(usb.usbReturn,'1')}" style="background-color: red; color: white; padding: 2px;float: right;">대여 불가</span>
         </div>
+            <div class="usb-item" style="text-align:center; cursor: pointer;" onclick="showPopup(this,type=3)">USB 추가</div>
     </div>
 </div>
 <script>
@@ -204,6 +220,7 @@ function showPopup(element) {
     var programName = element.textContent;
     var programUreturn = element.getAttribute("data-ureturn");
     var programUid = element.getAttribute("uid");
+    var programIndex = element.getAttribute("pgindex");
 
     var statusText = programUreturn === "0" ? "대여 가능" : "대여 불가";
 
@@ -211,7 +228,51 @@ function showPopup(element) {
     programInfoParagraph.innerHTML = "프로그램 이름: " + programName + "<br>상태: " + statusText + "<br>USB인덱스: "+ programUid;
     popupContent.appendChild(programInfoParagraph);
 
-  updateButton.onclick = function() {
+        if(programUreturn == 0){
+            var inputName =  document.createElement("input");
+                inputName.setAttribute("id", "rent_name");
+                inputName.setAttribute("placeholder", "이름");
+            var inputGroup =  document.createElement("input");
+                inputGroup.setAttribute("id", "rent_group");
+                inputGroup.setAttribute("placeholder", "학과");
+            popupContent.appendChild(inputName);
+            popupContent.appendChild(inputGroup);
+        }else{
+            var programUidAsInt = Number(programUid);
+            fetch('/load-log?uIndex=' + programUidAsInt)
+            .then(response => response.json())
+            .then(data => {
+
+                if (data && Array.isArray(data.logs) && data.logs.length > 0) {
+                    var logData = data.logs[0];
+                        console.log('Extracted log data:', logData);
+
+                    programInfoParagraph.innerHTML = "프로그램 이름: " + programName
+                                                   + "<br>상태: " + statusText
+                                                   + "<br>USB인덱스: " + programUid
+                                                   + "<br>대여자: " + logData.rtName
+                                                   + "<br>학과: "+ logData.rtGroup
+                                                   + "<br>대여날짜: "+ logData.rtDate;
+                } else {
+                  console.error('Error: No data found or data is undefined');
+                }
+
+
+
+                popupContent.appendChild(programInfoParagraph);
+                popupContent.appendChild(updateButton);
+            })
+            .catch(error => {
+                console.error('Error fetching load log:', error);
+            });
+
+        }
+    updateButton.onclick = function() {
+        if(programUreturn == 0){
+            var rent_name = document.getElementById("rent_name").value;
+            var rent_group = document.getElementById("rent_group").value;
+
+        }
 
       const newStatus = programUreturn === "0" ? "1" : "0";
 
@@ -224,6 +285,9 @@ function showPopup(element) {
           programName: programName,
           newStatus: newStatus,
           Uid: programUid,
+          pgid: programIndex,
+          rentName: rent_name,
+          rentGroup: rent_group,
         }),
       })
 
@@ -241,7 +305,7 @@ function showPopup(element) {
           alert(msg);
           location.reload();
         } else {
-          // Handle the error (display an error message, etc.)
+
           console.error('Update failed:', data.error);
         }
       })
@@ -250,7 +314,7 @@ function showPopup(element) {
         });
 
 
-  };
+    };
 
           if (programUreturn === "0") {
             updateButton.innerHTML = "대여하기";
@@ -258,6 +322,10 @@ function showPopup(element) {
           }else{
             updateButton.innerHTML = "반납하기";
           }
+
+    popupContent.appendChild(updateButton);
+
+
   }else if(type==2){
 
     var usbName = element.textContent;
@@ -272,81 +340,72 @@ function showPopup(element) {
 
     loadProgramList(element);
 
-    updateButton.onclick = function() {
-
-      const newStatus = usbReturn === "0" ? "1" : "0";
-
-      fetch('/update-status', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-
-          newStatus: newStatus,
-          Uid: usbIndex,
-        }),
-      })
-
-
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-
-          usbReturn = newStatus;
-          statusText = newStatus === "0" ? "대여 가능" : "대여 불가";
-          usbInfoParagraph.innerHTML = "USB 이름: " + usbName + "<br>상태: " + statusText;
-          newStatus === "0" ? updateButton.innerHTML = "대여하기" : updateButton.innerHTML = "반납하기";
-          newStatus === "0" ? msg= "반납이 완료되었습니다" : msg= "대여가 완료되었습니다";
-
-          alert(msg);
-          location.reload();
-
-        } else {
-          // Handle the error (display an error message, etc.)
-          console.error('Update failed:', data.error);
-        }
-        })
-        .catch(error => {
-          console.error('Network error:', error);
-        });
-
-
-        };
-
-          if (usbReturn === "0") {
-            updateButton.innerHTML = "대여하기";
-
-          }else{
-            updateButton.innerHTML = "반납하기";
-          }
+  }else if(type==3){
+    addUsb();
   }
 
 
-  function  loadProgramList(element){
-   var usbIndex = element.getAttribute("data-usbindex");
-   fetch('/get-program-list?usbIndex=' + usbIndex)
-    .then(response => response.json())
-    .then(data => {
+    function  loadProgramList(element){
+        var usbIndex = element.getAttribute("data-usbindex");
+        fetch('/get-program-list?usbIndex=' + usbIndex)
+        .then(response => response.json())
+        .then(data => {
 
-      var programList = document.createElement("ul");
-      programList.innerHTML = "프로그램 목록: ";
-      data.programs.forEach(program => {
+        var programList = document.createElement("ul");
+            programList.innerHTML = "프로그램 목록: ";
+            data.programs.forEach(program => {
         var programItem = document.createElement("li");
-        programItem.textContent = program.pgName;
-        programList.appendChild(programItem);
+            programItem.textContent = program.pgName;
+            programList.appendChild(programItem);
+            });
+
+
+        var popupContent = document.querySelector(".popup-content");
+        popupContent.appendChild(programList);
+      })
+      .catch(error => {
+        console.error('Error fetching program list:', error);
       });
+    }
 
-      // Append the program list to the popup content
-      var popupContent = document.querySelector(".popup-content");
-      popupContent.appendChild(programList);
-    })
-    .catch(error => {
-      console.error('Error fetching program list:', error);
-    });
-  }
 
-  popupContent.appendChild(updateButton);
+    function addUsb() {
+        var inputUsbName = document.createElement("input");
+            inputUsbName.setAttribute("id", "usbName");
+            inputUsbName.setAttribute("placeholder", "USB이름");
+        var addUsbText = document.createElement("ul");
+            addUsbText.innerHTML = "USB추가"+"<br>USB이름: ";
+        popupContent.appendChild(addUsbText);
+        popupContent.appendChild(inputUsbName);
+
+        var addButton = document.createElement("button");
+            addButton.innerHTML = "추가하기";
+
+            addButton.onclick = function () {
+                var usbName = document.getElementById("usbName").value;
+
+
+                fetch('/add-usb', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'usbName=' + encodeURIComponent(usbName),
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error adding USB:', error);
+                });
+            };
+
+      popupContent.appendChild(addButton);
+    }
+
+
   popup.appendChild(popupContent);
 
 
