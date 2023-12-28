@@ -24,6 +24,16 @@ public class MainController {
     private final UsbService usbService;
     private final LogService logService;
     private LogRepository logRepository;
+
+    private Integer convertToInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            // 형변환이 불가능한 경우, 예외가 발생하고 메시지를 출력합니다.
+            System.out.println("형변환이 불가능한 값: " + value);
+            return null;
+        }
+    }
     @Autowired
     public MainController(ProgramService programService, UsbService usbService, LogService logService, LogRepository logRepository) {
         this.programService = programService;
@@ -51,15 +61,15 @@ public class MainController {
 
         LogEntity saveLog = new LogEntity();
 
-        if (Integer.parseInt(newStatus)==1) {
-            saveLog.setPIndex(Integer.parseInt(pgid));
-            saveLog.setUIndex(Integer.parseInt(uid));
+        if (convertToInt(newStatus)==1) {
+            saveLog.setPIndex(convertToInt(pgid));
+            saveLog.setUIndex(convertToInt(uid));
             saveLog.setRtName(rentName);
             saveLog.setRtGroup(rentGroup);
 
             logRepository.save(saveLog);
         }else {
-            List<LogEntity> logList  = logRepository.findTop1ByuIndexOrderByLogIndexDesc(Integer.parseInt(uid));
+            List<LogEntity> logList  = logRepository.findTop1ByuIndexOrderByLogIndexDesc(convertToInt(uid));
             if (!logList.isEmpty()) {
                 LogEntity log = logList.get(0);
                 log.setReturnDate(new java.sql.Date(System.currentTimeMillis())); // 현재 날짜로 업데이트
