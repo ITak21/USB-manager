@@ -43,4 +43,15 @@
 - 어떤 프로그램이 어느 USB에 들어있는지 알 수 있다.
 - 대여시 로그테이블에 대여자, 대여 학과/부서, 대여 날짜, 반납 날짜가 기록된다.
 
-
+## 화면 구성 📺
+| 메인 페이지(초기 화면)  |  USB추가 페이지   |
+| :-------------------------------------------: | :------------: |
+| <img width="329" src="images/usb-manager 초기화면.jpg">|  <img width="329" src="images/usb-manager usb추가화면.jpg">|  
+| 파일추가 페이지  |   파일추가 후 메인 페이지   |  
+| <img width="329" src="images/usb-manager 파일추가화면.jpg">| <img width="329" src="images/usb-manager 파일추가된화면.jpg">|
+| 대여 페이지  |  대여 후 페이지  |
+| <img width="329" src="images/usb-manager 대여화면.jpg">| <img width="329" src="images/usb-manager 대여후화면.jpg">|
+| 대여확인 페이지 | 검색 페이지  |
+| <img width="329" src="images/usb-manager 대여확인화면.jpg">| <img width="329" src="images/usb-manager 검색화면.jpg">|
+| USB에 포함된 프로그램 조회 페이지|
+| <img width="329" src="images/usb-manager usb에 포함된 프로그램들.jpg">|
