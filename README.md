@@ -35,7 +35,7 @@
 ### 대여 및 반납시 로그테이블에 기록
 - 대여 및 반납시 로그테이블에 대여자, 학과, 대여날짜, 반납날짜가 기록된다.
 
-## DB ERD(수정)
+## DB ERD
 <img width="700" src=https://github.com/ITak21/USB-manager/assets/118645678/d1687660-6948-40e8-bc97-4d1fa5c76101>
 
 - 현재 USB가 대여중인지 확인할 수 있다.
