@@ -55,3 +55,6 @@
 | <img width="329" src="images/usb-manager 대여확인화면.jpg">| <img width="329" src="images/usb-manager 검색화면.jpg">|
 | USB에 포함된 프로그램 조회 페이지|
 | <img width="329" src="images/usb-manager usb에 포함된 프로그램들.jpg">|
+
+## USB-Manager 프로젝트 회고
+- [회고 링크](/회고.md)
